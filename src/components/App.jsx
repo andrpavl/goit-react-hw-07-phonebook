@@ -1,16 +1,16 @@
-export const App = () => {
+import { Phonebook } from './Phonebook/Phonebook';
+import { Contacts } from './Contacts/Contacts';
+import { Filter } from './Filter/Filter';
+import css from './App.module.css';
+
+export function App() {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
+    <div className={css.application}>
+      <h1>Phonebook</h1>
+      <Phonebook />
+      <h2>Contacts</h2>
+      <Filter />
+      <Contacts />
     </div>
   );
-};
+}
