@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
 import { addContact, fetchContacts } from 'redux/operations';
 import Loader from 'components/Loader/Loader';
+import Notiflix from 'notiflix';
 
 export function Phonebook() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export function Phonebook() {
   const handleAddContact = (name, number) => {
     const isInContacts = contacts.some(contact => contact.name === name);
     if (isInContacts) {
-      alert(`${name} is already in contacts`);
+      Notiflix.Notify.warning(`${name} is already in contacts`);
     } else {
       const newContact = {
         id: nanoid(),
@@ -30,6 +31,7 @@ export function Phonebook() {
         number: number,
       };
       dispatch(addContact(newContact));
+      Notiflix.Notify.success(`${name} is added to your contacts`);
     }
   };
 
