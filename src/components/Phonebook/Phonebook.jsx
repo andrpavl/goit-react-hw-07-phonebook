@@ -1,13 +1,20 @@
 import { nanoid } from 'nanoid';
 import css from './Phonebook.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import { getContacts } from 'redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+import { useEffect, useState } from 'react';
+import { selectContacts, selectError, selectIsLoading } from 'redux/selectors';
+import { addContact, fetchContacts } from 'redux/operations';
+import Loader from 'components/Loader/Loader';
 
 export function Phonebook() {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -54,6 +61,11 @@ export function Phonebook() {
 
   return (
     <form onSubmit={handleSubmit} className={css.form}>
+      {isLoading && !error && (
+        <div className={css.loader}>
+          <Loader />
+        </div>
+      )}
       <label htmlFor={nameId} className={css.label}>
         Name
         <input
